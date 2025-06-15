@@ -16,14 +16,20 @@ func NewWebServer() *WebServer {
 	return &WebServer{}
 }
 
-func (ws *WebServer) SetupControllers() {
+func (ws *WebServer) Serve() {
+	ws.setupControllers()
+	e := echo.New()
+	ws.setupRoutes(e)
+	e.Logger.Fatal(e.Start(":8080"))
+}
+
+func (ws *WebServer) setupControllers() {
 	ws.bookController = controllers.NewBookController(repositories.NewBookRepository())
 	ws.authorController = controllers.NewAuthorController(repositories.NewAuthorRepository())
 	ws.orderController = controllers.NewOrderController(repositories.NewOrderRepository())
 }
 
-func (ws *WebServer) Serve() {
-	e := echo.New()
+func (ws *WebServer) setupRoutes(e *echo.Echo) {
 	e.GET("/books", ws.bookController.GetAllBooks)
 	e.POST("/books", ws.bookController.AddBook)
 	e.PUT("/books/:id", ws.bookController.UpdateBookById)
@@ -33,5 +39,4 @@ func (ws *WebServer) Serve() {
 	e.GET("/orders/:userId", ws.orderController.GetOrdersByUserId)
 	e.POST("/orders", ws.orderController.AddOrder)
 	e.PUT("/orders/:orderId/:status", ws.orderController.UpdateOrderStatus)
-	e.Logger.Fatal(e.Start(":8080"))
 }
