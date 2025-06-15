@@ -1,11 +1,18 @@
 package repositories
 
-import "github.com/brianmorais/go-book-store-api/src/domain/entities"
+import (
+	"github.com/brianmorais/go-book-store-api/src/database"
+	"github.com/brianmorais/go-book-store-api/src/domain/entities"
+)
 
-type BookRepository struct{}
+type BookRepository struct {
+	dbConnection *database.DbConnection
+}
 
-func NewBookRepository() *BookRepository {
-	return &BookRepository{}
+func NewBookRepository(connection database.DbConnection) *BookRepository {
+	return &BookRepository{
+		dbConnection: &connection,
+	}
 }
 
 func (b *BookRepository) GetAllBooks() ([]entities.Book, error) {

@@ -1,11 +1,18 @@
 package repositories
 
-import "github.com/brianmorais/go-book-store-api/src/domain/entities"
+import (
+	"github.com/brianmorais/go-book-store-api/src/database"
+	"github.com/brianmorais/go-book-store-api/src/domain/entities"
+)
 
-type orderRepository struct{}
+type orderRepository struct {
+	dbConnection *database.DbConnection
+}
 
-func NewOrderRepository() *orderRepository {
-	return &orderRepository{}
+func NewOrderRepository(conection database.DbConnection) *orderRepository {
+	return &orderRepository{
+		dbConnection: &conection,
+	}
 }
 
 func (r *orderRepository) AddOrder(order entities.Order) (entities.Order, error) {

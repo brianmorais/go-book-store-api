@@ -1,8 +1,12 @@
 package application
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/brianmorais/go-book-store-api/src/controllers"
-	"github.com/brianmorais/go-book-store-api/src/repositories"
+	"github.com/brianmorais/go-book-store-api/src/database"
+	"github.com/brianmorais/go-book-store-api/src/database/repositories"
 	"github.com/labstack/echo/v4"
 )
 
@@ -20,13 +24,14 @@ func (ws *WebServer) Serve() {
 	ws.setupControllers()
 	e := echo.New()
 	ws.setupRoutes(e)
-	e.Logger.Fatal(e.Start(":8080"))
+	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", os.Getenv("API_PORT"))))
 }
 
 func (ws *WebServer) setupControllers() {
-	ws.bookController = controllers.NewBookController(repositories.NewBookRepository())
-	ws.authorController = controllers.NewAuthorController(repositories.NewAuthorRepository())
-	ws.orderController = controllers.NewOrderController(repositories.NewOrderRepository())
+	databaseConnection := database.NewDbConnection()
+	ws.bookController = controllers.NewBookController(repositories.NewBookRepository(*databaseConnection))
+	ws.authorController = controllers.NewAuthorController(repositories.NewAuthorRepository(*databaseConnection))
+	ws.orderController = controllers.NewOrderController(repositories.NewOrderRepository(*databaseConnection))
 }
 
 func (ws *WebServer) setupRoutes(e *echo.Echo) {
