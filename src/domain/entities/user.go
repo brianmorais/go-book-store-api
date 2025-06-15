@@ -1,8 +1,8 @@
 package entities
 
 type User struct {
-	Id       int    `json:"id"`
+	Id       int    `json:"id" gorm:"primaryKey"`
 	Username string `json:"username"`
 	Password string `json:"password"`
-	IsAdmin  bool   `json:"is_admin"`
+	IsAdmin  bool   `json:"isAdmin"`
 }

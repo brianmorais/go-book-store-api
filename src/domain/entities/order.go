@@ -3,9 +3,9 @@ package entities
 import "time"
 
 type Order struct {
-	Id        int       `json:"id"`
-	UserID    int       `json:"user_id"`
-	BookIDs   []int     `json:"book_ids"`
+	Id        int       `json:"id" gorm:"primaryKey"`
+	UserId    int       `json:"userId"`
+	Books     []Book    `json:"books" gorm:"one2many:Book;foreignKey:Id;references:Id"`
 	Status    string    `json:"status"`
-	CreatedAt time.Time `json:"created_at"`
+	CreatedAt time.Time `json:"createdAt"`
 }

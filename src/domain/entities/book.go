@@ -1,9 +1,9 @@
 package entities
 
 type Book struct {
-	Id          int     `json:"id"`
+	Id          int     `json:"id" gorm:"primaryKey"`
 	Title       string  `json:"title"`
 	Description string  `json:"description"`
 	Price       float64 `json:"price"`
-	AuthorID    int     `json:"author_id"`
+	AuthorId    int     `json:"authorId" gorm:"foreignKey:AuthorId;references:Id"`
 }

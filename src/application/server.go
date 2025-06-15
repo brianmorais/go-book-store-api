@@ -29,6 +29,9 @@ func (ws *WebServer) Serve() {
 
 func (ws *WebServer) setupControllers() {
 	databaseConnection := database.NewDbConnection()
+	if os.Getenv("MIGRATE_TABLES") == "true" {
+		databaseConnection.MigrateEntities()
+	}
 	ws.bookController = controllers.NewBookController(repositories.NewBookRepository(*databaseConnection))
 	ws.authorController = controllers.NewAuthorController(repositories.NewAuthorRepository(*databaseConnection))
 	ws.orderController = controllers.NewOrderController(repositories.NewOrderRepository(*databaseConnection))

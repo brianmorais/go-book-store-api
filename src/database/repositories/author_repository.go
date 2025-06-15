@@ -16,9 +16,21 @@ func NewAuthorRepository(connection database.DbConnection) *AuthorRepository {
 }
 
 func (r *AuthorRepository) GetAllAuthors() ([]entities.Author, error) {
-	return []entities.Author{}, nil
+	var authors []entities.Author
+	result := r.dbConnection.Connection.Find(&authors)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	if result.RowsAffected == 0 {
+		return []entities.Author{}, nil
+	}
+	return authors, nil
 }
 
 func (r *AuthorRepository) AddAuthor(author entities.Author) (entities.Author, error) {
-	return entities.Author{}, nil
+	result := r.dbConnection.Connection.Create(&author)
+	if result.Error != nil {
+		return entities.Author{}, result.Error
+	}
+	return author, nil
 }

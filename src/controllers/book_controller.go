@@ -56,7 +56,7 @@ func (b *BookController) UpdateBookById(c echo.Context) error {
 		return c.JSON(400, map[string]string{"error": "Invalid book ID"})
 	}
 
-	err = b.bookRepository.UpdateBookById(intId)
+	err = b.bookRepository.UpdateBookById(intId, book)
 	if err != nil {
 		return c.JSON(500, map[string]string{"error": "Failed to update book"})
 	}

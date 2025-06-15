@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/brianmorais/go-book-store-api/src/domain/entities"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -19,6 +20,10 @@ func NewDbConnection() *DbConnection {
 		log.Panic("Failed to connect to the database: ", err)
 	}
 	return conn
+}
+
+func (db *DbConnection) MigrateEntities() {
+	db.Connection.AutoMigrate(&entities.Book{}, &entities.User{}, &entities.Order{}, &entities.Author{})
 }
 
 func (db *DbConnection) getConnection() error {
