@@ -23,7 +23,7 @@ func NewDbConnection() *DbConnection {
 }
 
 func (db *DbConnection) MigrateEntities() {
-	db.Connection.AutoMigrate(&entities.Book{}, &entities.User{}, &entities.Order{}, &entities.Author{})
+	db.Connection.AutoMigrate(&entities.Author{}, &entities.Book{}, &entities.Order{}, &entities.User{})
 }
 
 func (db *DbConnection) getConnection() error {

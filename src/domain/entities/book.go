@@ -5,5 +5,5 @@ type Book struct {
 	Title       string  `json:"title"`
 	Description string  `json:"description"`
 	Price       float64 `json:"price"`
-	AuthorId    int     `json:"authorId" gorm:"foreignKey:AuthorId;references:Id"`
+	AuthorId    int     `json:"authorId" gorm:"foreignKey:Id"`
 }
